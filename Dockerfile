@@ -6,13 +6,14 @@ ENV JAR jolokia-jvm-$VERSION-agent.jar
 ENV MAVEN_REPOSITORY https://repo1.maven.org/maven2
 
 # Log4j envs
-ENV CONFLUENT_LOG4J 5.5.1
-ENV LOG4J_EXTENSIONS_JAR confluent-log4j-extensions-$CONFLUENT_LOG4J.jar
+ENV CONFLUENT_PLATFORM_VERSION 5.3.1
+ENV LOG4J_EXTENSIONS_JAR confluent-log4j-extensions-$CONFLUENT_PLATFORM_VERSION.jar
+ENV LOGGING_COMMONS_JAR common-logging-$CONFLUENT_PLATFORM_VERSION.jar
 ENV CONFLUENT_MAVEN_REPO https://packages.confluent.io/maven
 
 # Add Confluent log4j extensions - used to push JSON formatted logs to Elastic
-RUN curl -L $CONFLUENT_MAVEN_REPO/io/confluent/confluent-log4j-extensions/$CONFLUENT_LOG4J/$LOG4J_EXTENSIONS_JAR -o /usr/share/java/kafka/$LOG4J_EXTENSIONS_JAR
-RUN curl -L $CONFLUENT_MAVEN_REPO/io/confluent/common-logging/5.5.1/common-logging-5.5.1.jar -o /usr/share/java/kafka/common-logging-5.5.1.jar
+RUN curl -L $CONFLUENT_MAVEN_REPO/io/confluent/confluent-log4j-extensions/$CONFLUENT_PLATFORM_VERSION/$LOG4J_EXTENSIONS_JAR -o /usr/share/java/kafka/$LOG4J_EXTENSIONS_JAR
+RUN curl -L $CONFLUENT_MAVEN_REPO/io/confluent/common-logging/$CONFLUENT_PLATFORM_VERSION/$LOGGING_COMMONS_JAR -o /usr/share/java/kafka/$LOGGING_COMMONS_JAR
 
 # Add Jolokia for exposing JMX metrics
 RUN mkdir -p /opt/jolokia/
